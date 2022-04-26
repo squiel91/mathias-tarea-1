@@ -1,11 +1,11 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 
-public class Hola {
+public class Hola { // llamalo Agenda por lo menos....
 	static ArrayList<Contacto> contactos = new ArrayList<>();
 	static Scanner sc = new Scanner(System.in);
 
-	private static Integer numeroo() {
+	private static Integer numeroo() { // esto seria el
 		int number = 0;
 		System.out.println("Ingresa su numero:");
 		try {
@@ -22,25 +22,18 @@ public class Hola {
 		return number;
 	}
 
-	private static String mailVerficator() {
+	private static String mailVerficator(Scanner sc) {
 		String mail;
-		System.out.println("Ingresa su mail(o presiona enter si no lo sabes):");
-		mail = sc.nextLine();
-		if (mail != "" && mail.contains("@") && mail.contains(".") || mail == "")
-		{
-		} else {
-			System.out.println("Ingresa un mail verdadero");
-			mail = sc.nextLine();
-			if (mail != "" && mail.contains("@") && mail.contains(".") || mail == "")
-			{}else {
-				mailVerficator();
-			}
-		}
+    // aca deberia ir un while
+    do {
+      System.out.println("Ingresa su mail(o presiona enter si no lo sabes):");
+      mail = sc.nextLine();
+    } while (!mail.isEmpty() && !mailIsValid(mail)); // supongo que defini esa funcion arriba mailIsValid 
+      
 		return mail;
 	}
 
 	static void Coso() {
-		int cantContactos = 0;
 		System.out.println("|--------------------------------------------------------------------------|");
 		System.out.println("|¿Quieres [i]ingresar nuevo contacto o [c]consultar un contacto existente? |");
 		System.out.println("|--------------------------------------------------------------------------|");
@@ -49,19 +42,23 @@ public class Hola {
 		int result;
 		String mail;
 		switch (option) {
-		case "i":
+    // un truquito que vi que hacia Facu y funciona...
+    case "I":
+    case "i":
 			do {
 				System.out.println("Ingresa el nombre:");
 				name = sc.nextLine();
-			} while (name.length() < 1);
+			} while (name.length() < 1); // o !name.isEmpty()
 			do {
 				result = numeroo();
 			} while (result < 1);
 			mail = mailVerficator();
-			contactos.add(new Contacto(name, result, mail));
-			cantContactos = cantContactos + 1;
+			contactos.add(new Contacto(name, result, mail)); // hermoso
+			// No estas usando cantidad de contactos. 
+      // Y en cualquier caso que lo necesites usar podes usar contactos.size()
 			Coso();
 			break;
+		case "C":
 		case "c":
 			System.out.println("Ingresa el nombre del contacto que quieres consultar");
 			String consultName = sc.nextLine();
@@ -83,19 +80,25 @@ public class Hola {
 	}
 
 	public static void main(String[] args) {
-		Coso();
+    // Te falta una pieza clave que es el while true. Solo podes ejecutar una accion y se cierra el programa.
+    while (true) {
+      // en vez de hacer una funcion Coso y llamarla de main
+      // deberias no tener coso y copiar el codigo adentro del main
+      Coso(); 
+    }
 	}
 
 }
 
 class Contacto {
 	private String nombre, mail;
-	private int number;
+	private int number; // Usaria un string para el numero "09812345" o "+598 (532) 123-567"
 
+  // bien que usaste el contrructor!
 	public Contacto(String nombre, int number, String mail) {
-		super();
+    // en este caso super no tiene sentido usarlo xq no hereda de ninguna otra clase.
 		this.nombre = nombre;
-		this.number = number;
+		this.number = number; // espaniol o ingles??
 		this.mail = mail;
 	}
 
@@ -115,7 +118,7 @@ class Contacto {
 		return number;
 	}
 
-	public void setNumber() {
+	public void setNumber(int number) {
 		this.number = number;
 	}
 
@@ -126,5 +129,9 @@ class Contacto {
 	public void setMail() {
 		this.mail = mail;
 	}
+
+  public void presentYourself () {
+    System.out.println("Nombre: " + nombre + " Numero: " + number + " Mail: " + mail);
+  }
 
 }
